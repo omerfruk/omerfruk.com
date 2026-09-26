@@ -29,8 +29,7 @@ src/ (React + TypeScript)  ──npm run build──▶  dist/  ──npm run de
 
 Gerekenler: Node.js 24+, git.
 
-Proje Cloudflare'de **kişisel hesapta**: `Omer.fruk3547@gmail.com's Account`
-(`73d785f9f383f3ee67ecd78eba36c0c3`). `omerfruk.com` bölgesi de aynı hesapta —
+Proje Cloudflare'de **kişisel hesapta** (`73d785f9f383f3ee67ecd78eba36c0c3`). `omerfruk.com` bölgesi de aynı hesapta —
 Pages projesi ile alan adının aynı hesapta olması şart, aksi halde hesaplar arası
 proxy'li CNAME **Error 1014** verir. `npx wrangler login` onay ekranında bu hesap
 seçili olmalı; `npm run deploy` hesabı ayrıca `CLOUDFLARE_ACCOUNT_ID` ile sabitliyor.
@@ -73,13 +72,14 @@ Sitedeki iletişim adresi **Cloudflare Email Routing** ile yönlendiriliyor
 (26 Eylül 2026'da kuruldu, ücretsiz):
 
 ```
-info@omerfruk.com  ──▶  omer.fruk3547@gmail.com   (kural: Active)
+info@omerfruk.com  ──▶  kişisel posta kutusu   (kural: Active)
 ```
 
 Kurulum bölgeye üç MX kaydı (`route1/2/3.mx.cloudflare.net`) ile bir SPF ve bir
 DKIM TXT kaydı ekledi; bunlar Cloudflare tarafından kilitli tutuluyor, elle
 silme. Hedef adres Cloudflare hesabının kendi adresi olduğu için doğrulama
-adımı gerekmeden `Verified` oldu.
+adımı gerekmeden `Verified` oldu. Hedefin ne olduğu Cloudflare panelinde görünür;
+depo herkese açık olduğu için buraya yazılmıyor.
 
 Bu **yalnızca gelen postayı yönlendirir**; adresten e-posta *göndermek* için
 Gmail'de Ayarlar → Hesaplar → "Başka bir e-posta adresi ekle" akışıyla
