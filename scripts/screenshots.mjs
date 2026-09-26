@@ -33,7 +33,11 @@ for (const vp of viewports) {
     });
     const page = await context.newPage();
     const issues = [];
-    page.on('console', (m) => ['error', 'warning'].includes(m.type()) && issues.push(`console ${m.type()}: ${m.text()}`));
+    page.on(
+      'console',
+      (m) =>
+        ['error', 'warning'].includes(m.type()) && issues.push(`console ${m.type()}: ${m.text()}`),
+    );
     page.on('pageerror', (e) => issues.push(`pageerror: ${e.message}`));
     page.on('response', (r) => r.status() >= 400 && issues.push(`HTTP ${r.status()} ${r.url()}`));
     page.on('requestfailed', (r) => issues.push(`failed ${r.url()}`));
@@ -54,13 +58,19 @@ for (const vp of viewports) {
     const overflow = await page.evaluate(() => {
       const doc = document.documentElement;
       const wide = [...document.querySelectorAll('body *')]
-        .filter((el) => el.getBoundingClientRect().right > doc.clientWidth + 1 && !el.closest('[aria-hidden="true"]'))
+        .filter(
+          (el) =>
+            el.getBoundingClientRect().right > doc.clientWidth + 1 &&
+            !el.closest('[aria-hidden="true"]'),
+        )
         .slice(0, 5)
         .map((el) => `${el.tagName.toLowerCase()}.${String(el.className).slice(0, 60)}`);
       return { scrollWidth: doc.scrollWidth, clientWidth: doc.clientWidth, wide };
     });
-    if (overflow.scrollWidth > overflow.clientWidth) issues.push(`horizontal overflow ${JSON.stringify(overflow)}`);
-    else if (overflow.wide.length) issues.push(`elements past right edge (clipped): ${overflow.wide.join(', ')}`);
+    if (overflow.scrollWidth > overflow.clientWidth)
+      issues.push(`horizontal overflow ${JSON.stringify(overflow)}`);
+    else if (overflow.wide.length)
+      issues.push(`elements past right edge (clipped): ${overflow.wide.join(', ')}`);
 
     await page.screenshot({ path: `${OUT}/${tag}-full.png`, fullPage: true });
 

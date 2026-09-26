@@ -16,8 +16,14 @@ export const profile = {
     en: 'Backend Engineer',
     tr: 'Backend Geliştirici',
   } satisfies L10n,
-  /** Hero'daki mono teknoloji şeridi — dilden bağımsız. */
-  stackLine: 'Go · PostgreSQL · REST APIs · Docker',
+  /**
+   * Hero başlığı (H1). İsim künyede ve sayfa başlığında geçtiği için buraya
+   * ne yaptığı yazılır — dergi kapağındaki manşet gibi.
+   */
+  headline: {
+    en: 'I build backend systems that stay reliable.',
+    tr: 'Güvenilir backend sistemleri kuruyorum.',
+  } satisfies L10n,
   /** Hero sağ sütunu: kısa tanıtım. */
   intro: {
     en: 'Backend-focused software engineer with 5+ years of professional experience building reliable web applications, APIs and data-driven systems. I work primarily with Go and PostgreSQL, and I contribute across other stacks when a project needs full delivery.',
@@ -30,20 +36,14 @@ export const profile = {
   } satisfies L10n,
 } as const;
 
-/** Hero altındaki üç ölçü. Değer kısa ve tarama sırasında okunabilir olmalı. */
-export const heroStats: ReadonlyArray<{ value: L10n; label: L10n }> = [
-  {
-    value: { en: '5+ years', tr: '5+ yıl' },
-    label: { en: 'Professional experience', tr: 'Profesyonel deneyim' },
-  },
-  {
-    value: { en: 'Go · PostgreSQL', tr: 'Go · PostgreSQL' },
-    label: { en: 'Primary stack', tr: 'Ana teknoloji yığını' },
-  },
-  {
-    value: { en: 'Isparta, Türkiye', tr: 'Isparta, Türkiye' },
-    label: { en: 'Remote friendly', tr: 'Uzaktan çalışmaya uygun' },
-  },
+/**
+ * Hero'nun altındaki tek satırlık künye. Kutu veya sayaç değil; virgülle
+ * ayrılmış düz bilgi — sayfanın geri kalanıyla aynı sakinlikte.
+ */
+export const heroFacts: ReadonlyArray<L10n> = [
+  { en: 'Five years of professional work', tr: 'Beş yıllık profesyonel deneyim' },
+  { en: 'Isparta, Türkiye', tr: 'Isparta, Türkiye' },
+  { en: 'Available for freelance', tr: 'Freelance projelere açık' },
 ];
 
 /* --------------------------------------------------------------------------
@@ -166,25 +166,31 @@ export const projects: readonly Project[] = [
    Yetkinlikler — hepsi PROFILE.md'de doğrulanmış maddelerden gelir.
    -------------------------------------------------------------------------- */
 
-export const skillGroups: ReadonlyArray<{ title: L10n; items: readonly string[] }> = [
+/**
+ * Yetkinlik maddesi: ürün/teknoloji adları olduğu gibi kalır (Go, PostgreSQL),
+ * açıklama niteliğindekiler iki dilde yazılır ("Role-based authorization").
+ */
+export type SkillItem = string | L10n;
+
+export const skillGroups: ReadonlyArray<{ title: L10n; items: readonly SkillItem[] }> = [
   {
     title: { en: 'Backend', tr: 'Backend' },
     items: [
       'Go',
-      'REST API design',
+      { en: 'REST API design', tr: 'REST API tasarımı' },
       'Fiber',
       'WebSocket',
-      'Role-based authorization',
-      'Tenant isolation',
-      'Audit logging',
+      { en: 'Role-based authorization', tr: 'Rol bazlı yetkilendirme' },
+      { en: 'Tenant isolation', tr: 'Kurum bazlı izolasyon' },
+      { en: 'Audit logging', tr: 'Audit log' },
     ],
   },
   {
     title: { en: 'Data', tr: 'Veri' },
     items: [
       'PostgreSQL',
-      'Data modeling',
-      'Migrations & seeds',
+      { en: 'Data modeling', tr: 'Veri modelleme' },
+      { en: 'Migrations & seeds', tr: 'Migration ve seed' },
       'MongoDB',
       'SQLite',
       'Firebase Firestore',
@@ -194,8 +200,8 @@ export const skillGroups: ReadonlyArray<{ title: L10n; items: readonly string[] 
     title: { en: 'Delivery', tr: 'Teslim' },
     items: [
       'Docker & Compose',
-      'Automated tests',
-      'Health & smoke checks',
+      { en: 'Automated tests', tr: 'Otomatik testler' },
+      { en: 'Health & smoke checks', tr: 'Health ve smoke check' },
       'Cloudflare Pages',
       'Netlify',
       'PWA & Service Worker',
@@ -253,7 +259,7 @@ export const education: readonly TimelineEntry[] = [
   {
     org: 'Süleyman Demirel Üniversitesi',
     title: {
-      en: "MSc, Computer Engineering",
+      en: 'MSc, Computer Engineering',
       tr: 'Bilgisayar Mühendisliği, Yüksek Lisans',
     },
     period: { en: 'Aug 2023 — present', tr: 'Ağustos 2023 — devam' },

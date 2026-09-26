@@ -68,20 +68,20 @@ dili `hreflang` ile eşleştirilmiş ayrı adreslerde bulur.
 
 ## Tasarım
 
-Koyu, teknik ve ölçülü. Neredeyse siyah zemin, tek soğuk vurgu rengi (`#5fd3e3`),
-mono etiketler, numaralı bölüm başlıkları ve kart köşelerinde teknik föy
-işaretleri. Vurgu rengi yalnızca etiket, bölüm numarası ve etkileşimde kullanılır;
-gövde metni veya büyük yüzey rengi değildir.
+Sıcak, editoryal, tipografik. Kırık beyaz kâğıt zemini (`#faf7f1`), mavi-siyah
+mürekkep (`#1b2430`) ve tek bir yanık kiremit vurgu (`#b4552e`). Kart yok, rozet
+yok, bölüm numarası yok, mono etiket yok — bölümler saç teli çizgilerle ayrılır ve
+projeler dergi içindekiler sayfası gibi bir liste hâlinde okunur.
 
-Tipografi: başlıklarda **Space Grotesk**, gövdede **Inter**, etiketlerde
-**JetBrains Mono**. Üçü de yerel WOFF2 olarak sunulur (`public/fonts/`), Google'a
-çalışma anında istek gitmez. Türkçe karakterler iki altkümeye dağılır: `ı` latin
-içinde, `ş ğ İ` latin-ext içinde; ikisi de dosyalanmıştır.
+Tipografi: başlıklarda **Fraunces**, gövdede **Inter**. Fraunces değişken bir
+serif; `opsz` ekseni her ölçüde ayrı ayarlanır, böylece büyük başlıklar ince ve
+kontrastlı, küçük başlıklar sağlam durur. İkisi de yerel WOFF2 olarak sunulur
+(`public/fonts/`), Google'a çalışma anında istek gitmez. Türkçe karakterler iki
+altkümeye dağılır: `ı` latin içinde, `ş ğ İ` latin-ext içinde; ikisi de dosyalanmıştır.
 
-Bölüm sırası: Hero → 01 Projeler → 02 Yetkinlikler → 03 Deneyim → 04 İletişim →
-footer.
-
-Üç bölüm Watermelon UI'dan uyarlandı (MIT) — ayrıntı: `THIRD_PARTY_NOTICES.md`.
+Bölüm sırası: Hero → Projeler → Yetkinlikler → Deneyim → İletişim → footer.
+Sayfadaki tek H1 hero'daki cümledir; isim künyede, sayfa başlığında ve JSON-LD'de
+geçer.
 
 ## İçerik kuralı
 

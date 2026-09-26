@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ÖFT">
-  <rect width="64" height="64" rx="14" fill="#08090b"/>
-  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" fill="none" stroke="#1d2127"/>
-  <!-- Köşe artı işaretleri: sitedeki teknik föy motifinin küçük hali. -->
-  <path d="M10 16V10h6M54 48v6h-6" fill="none" stroke="#2f7e8b" stroke-width="1.5"/>
-  <text x="32" y="41" text-anchor="middle" font-family="'Space Grotesk',ui-sans-serif,system-ui,sans-serif"
-        font-size="25" font-weight="600" letter-spacing="-1.2" fill="#f2f4f7">ÖFT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ömer Faruk Taşdemir">
+  <rect width="64" height="64" rx="14" fill="#faf7f1"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" fill="none" stroke="#e2dcd0"/>
+  <text x="32" y="44" text-anchor="middle" font-family="Fraunces,Georgia,serif"
+        font-size="40" font-weight="500" fill="#1b2430">Ö</text>
+  <rect x="20" y="52" width="24" height="2" rx="1" fill="#b4552e"/>
 </svg>

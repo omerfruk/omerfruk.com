@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpRight, Lock } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { copy, projects, workFilters } from '../data/site';
 import type { Project, WorkGroup } from '../data/site';
 import { t } from '../lib/i18n';
@@ -9,9 +9,9 @@ import { SectionHeading } from './ui/SectionHeading';
 import { cn } from '../lib/cn';
 
 /**
- * Seçili projeler. Watermelon UI career-3'ün alan filtresi + kart grid'i
- * düzeninden uyarlandı; kartlar parlayan yüzey yerine teknik föy çerçevesine
- * dönüştürüldü (bkz. THIRD_PARTY_NOTICES.md).
+ * Seçili projeler. Kart grid'i yerine editoryal liste: her proje saç teli
+ * çizgiyle ayrılmış bir satır. Başlıklar aynı sol kenardan okunuyor ve sayfa
+ * dergi içindekiler sayfası gibi taranabiliyor.
  */
 export function WorkSection({ lang }: { lang: Lang }) {
   const [active, setActive] = useState<WorkGroup | 'all'>('all');
@@ -21,7 +21,6 @@ export function WorkSection({ lang }: { lang: Lang }) {
     <section id="work" aria-labelledby="work-title" className="rule-top section-space">
       <div className="container-page">
         <SectionHeading
-          index="01"
           eyebrow={t(copy.workEyebrow, lang)}
           titleId="work-title"
           title={t(copy.workTitle, lang)}
@@ -32,7 +31,7 @@ export function WorkSection({ lang }: { lang: Lang }) {
           <div
             role="group"
             aria-label={t(copy.workFilterLabel, lang)}
-            className="mt-10 flex flex-wrap gap-2"
+            className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2"
           >
             {workFilters.map((filter) => {
               const selected = active === filter.id;
@@ -43,10 +42,10 @@ export function WorkSection({ lang }: { lang: Lang }) {
                   aria-pressed={selected}
                   onClick={() => setActive(filter.id)}
                   className={cn(
-                    'mono-label rounded-md border px-3.5 py-2 transition-colors',
+                    'py-1 text-[0.9375rem] underline-offset-[6px] transition-colors',
                     selected
-                      ? 'border-accent-dim bg-surface text-accent'
-                      : 'border-line text-muted hover:border-faint hover:text-ink',
+                      ? 'text-accent underline decoration-accent'
+                      : 'text-muted hover:text-ink',
                   )}
                 >
                   {t(filter.label, lang)}
@@ -59,11 +58,11 @@ export function WorkSection({ lang }: { lang: Lang }) {
         {visible.length === 0 ? (
           <p className="mt-12 py-16 text-center text-muted">{t(copy.workEmpty, lang)}</p>
         ) : (
-          <ul data-testid="project-list" className="mt-8 grid grid-cols-1 items-stretch gap-4 md:grid-cols-2">
+          <ul data-testid="project-list" className="mt-8">
             {visible.map((project, i) => (
-              <li key={project.id} className="h-full">
-                <Reveal delay={Math.min(i, 3) * 0.05} className="h-full">
-                  <ProjectCard project={project} lang={lang} />
+              <li key={project.id}>
+                <Reveal delay={Math.min(i, 4) * 0.04}>
+                  <ProjectRow project={project} lang={lang} />
                 </Reveal>
               </li>
             ))}
@@ -74,10 +73,10 @@ export function WorkSection({ lang }: { lang: Lang }) {
   );
 }
 
-function ProjectCard({ project, lang }: { project: Project; lang: Lang }) {
+function ProjectRow({ project, lang }: { project: Project; lang: Lang }) {
   const isPublic = project.href !== null;
 
-  // Herkese açık projede bütün kart tıklanabilir; kapalı projede bağlantı yok.
+  // Herkese açık projede bütün satır tıklanabilir; kapalı projede bağlantı yok.
   const Wrapper = isPublic ? 'a' : 'div';
   const wrapperProps = isPublic
     ? {
@@ -92,39 +91,31 @@ function ProjectCard({ project, lang }: { project: Project; lang: Lang }) {
     <Wrapper
       {...wrapperProps}
       className={cn(
-        'card card-ticks group flex h-full flex-col p-6 transition-colors duration-300 sm:p-7',
-        isPublic && 'hover:border-accent-dim hover:bg-surface-hi',
+        'row group block py-8 sm:py-9',
+        isPublic && 'hover:bg-canvas-deep sm:hover:px-6',
       )}
     >
-      <div className="flex items-start justify-between gap-4">
-        <h3 className="display-md text-ink">{project.title}</h3>
-        {isPublic ? (
-          <ArrowUpRight
-            aria-hidden
-            className="mt-1 size-5 shrink-0 text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
-          />
-        ) : (
-          <span className="mono-label mt-1.5 flex shrink-0 items-center gap-1.5 text-faint">
-            <Lock aria-hidden className="size-3" />
-            <span className="sr-only sm:not-sr-only">{t(copy.workPrivate, lang)}</span>
-          </span>
-        )}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-baseline lg:gap-12">
+        <div className="lg:w-[38%] lg:shrink-0">
+          <h3 className="display-md flex items-start gap-2 text-ink transition-colors group-hover:text-accent">
+            {project.title}
+            {isPublic && (
+              <ArrowUpRight
+                aria-hidden
+                className="mt-1.5 size-[1.1rem] shrink-0 text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+              />
+            )}
+          </h3>
+          <p className="tag-list mt-3">
+            {project.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+            {!isPublic && <span className="text-accent">{t(copy.workPrivate, lang)}</span>}
+          </p>
+        </div>
+
+        <p className="max-w-[58ch] text-muted lg:flex-1">{t(project.summary, lang)}</p>
       </div>
-
-      <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted">
-        {t(project.summary, lang)}
-      </p>
-
-      <ul className="mt-6 flex flex-wrap gap-1.5">
-        {project.tags.map((tag) => (
-          <li
-            key={tag}
-            className="mono-meta rounded border border-line-soft bg-canvas px-2 py-1 text-faint"
-          >
-            {tag}
-          </li>
-        ))}
-      </ul>
     </Wrapper>
   );
 }

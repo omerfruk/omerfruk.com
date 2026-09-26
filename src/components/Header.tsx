@@ -9,9 +9,8 @@ import { useScrollLock } from '../lib/useScrollLock';
 import { cn } from '../lib/cn';
 
 /**
- * Üstte sabit duran gezinme. Watermelon UI hero-35'in yukarıdan inen nav
- * hareketinden uyarlandı; mobil panel, dil anahtarı ve erişilebilirlik
- * davranışları burada tamamlandı (bkz. THIRD_PARTY_NOTICES.md).
+ * Sayfa künyesi: solda tam ad, sağda gezinme. Dergi başlığı gibi kurulur —
+ * monogram veya rozet yok.
  */
 export function Header({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(false);
@@ -23,7 +22,7 @@ export function Header({ lang }: { lang: Lang }) {
   useFocusTrap(panelRef, open, close);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -42,48 +41,43 @@ export function Header({ lang }: { lang: Lang }) {
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -16 }}
+      initial={{ opacity: 0, y: -14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
-        scrolled && 'border-b border-line bg-canvas/85 backdrop-blur-md',
+        scrolled && 'border-b border-line bg-canvas/90 backdrop-blur-sm',
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-6 sm:h-18">
+      <div className="container-page flex h-[4.5rem] items-center justify-between gap-3 sm:gap-6">
         <a
           href={pathForLang(lang)}
-          className="group flex items-baseline gap-2.5 whitespace-nowrap"
-          aria-label={profile.name}
+          className="font-display truncate text-base font-medium tracking-[-0.008em] text-ink transition-colors hover:text-accent sm:text-[1.1875rem]"
         >
-          <span className="font-display text-lg font-medium tracking-tight text-ink">
-            {profile.monogram}
-          </span>
-          <span className="mono-meta hidden text-faint transition-colors group-hover:text-muted sm:inline">
-            {t(profile.role, lang).toLowerCase()}
-          </span>
+          {profile.name}
         </a>
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          <nav aria-label={t(profile.role, lang)} className="hidden items-center lg:flex">
+        <div className="flex shrink-0 items-center gap-3 sm:gap-5">
+          <nav aria-label={t(profile.role, lang)} className="hidden items-center gap-7 lg:flex">
             {nav.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="mono-meta rounded px-3 py-2 text-muted transition-colors hover:text-ink"
+                className="text-[0.9375rem] text-muted transition-colors hover:text-accent"
               >
                 {t(item.label, lang)}
               </a>
             ))}
           </nav>
 
-          <span aria-hidden className="mx-1 hidden h-4 w-px bg-line lg:block" />
+          <span aria-hidden className="hidden h-4 w-px bg-line lg:block" />
 
+          {/* 360 px altında künyeyi taşırıyor; orada menü panelinde duruyor. */}
           <a
             href={pathForLang(other)}
             hrefLang={other}
             title={t(copy.langSwitchTitle, lang)}
-            className="mono-label rounded border border-line px-3 py-1.5 text-muted transition-colors hover:border-accent-dim hover:text-ink"
+            className="hidden text-[0.9375rem] text-muted underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent-soft min-[360px]:inline"
           >
             {t(copy.langSwitchLabel, lang)}
           </a>
@@ -94,7 +88,7 @@ export function Header({ lang }: { lang: Lang }) {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={t(open ? copy.closeMenu : copy.openMenu, lang)}
-            className="flex size-10 items-center justify-center rounded text-ink transition-colors hover:bg-surface lg:hidden"
+            className="-mr-2 flex size-10 items-center justify-center rounded text-ink transition-colors hover:text-accent lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -108,17 +102,24 @@ export function Header({ lang }: { lang: Lang }) {
         hidden={!open}
         className="border-t border-line bg-canvas lg:hidden"
       >
-        <nav className="container-page flex flex-col py-3">
+        <nav className="container-page flex flex-col py-2">
           {nav.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
               onClick={close}
-              className="border-b border-line-soft py-3.5 font-display text-lg text-ink last:border-b-0"
+              className="display-sm border-b border-line-soft py-4 text-ink last:border-b-0"
             >
               {t(item.label, lang)}
             </a>
           ))}
+          <a
+            href={pathForLang(other)}
+            hrefLang={other}
+            className="display-sm py-4 text-muted min-[360px]:hidden"
+          >
+            {t(copy.langSwitchLabel, lang)}
+          </a>
         </nav>
       </div>
     </motion.header>

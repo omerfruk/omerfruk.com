@@ -2,19 +2,22 @@
 
 ## Watermelon UI
 
-Sitenin üç bölümü [Watermelon UI](https://ui.watermelon.sh/) bloklarından
-uyarlandı. Kaynak depo:
+Sitenin ilk sürümü [Watermelon UI](https://ui.watermelon.sh/) bloklarından
+uyarlanmıştı (hero-35, career-3, footer-25). Tasarım sonradan sıcak/editoryal bir
+yöne taşınınca o uyarlamaların görsel tarafı — koyu zemin, kart yüzeyleri, büyük
+kelime markası, mono etiketler — tamamen değiştirildi.
+
+Bugün kalan tek iz **projeler bölümündeki alan filtresi + liste** fikridir;
+[career-3](https://github.com/WatermelonCorp/watermelon-platform/blob/51db104dead7ce6125b953c5ec0802675b7c43bf/src/data/contents/blocks/career/career-3/index.tsx)
+bloğunun "seçili sekme listeyi daraltır" düzeninden geliyor. Kod birebir alınmadı:
+`react-icons`, `Badge` ve `Button` bağımlılıkları kullanılmadı, kart grid'i saç teli
+çizgilerle ayrılmış bir listeye dönüştürüldü, filtre düğmeleri `aria-pressed` ile
+işaretlendi.
+
+Kaynak depo:
 [WatermelonCorp/watermelon-platform](https://github.com/WatermelonCorp/watermelon-platform),
-referans revizyon **`51db104dead7ce6125b953c5ec0802675b7c43bf`**.
-
-| Bu sitedeki bölüm | Kaynak | Ne değişti |
-| --- | --- | --- |
-| `src/components/Hero.tsx` ve `src/components/Header.tsx` | [hero-35/index.tsx](https://github.com/WatermelonCorp/watermelon-platform/blob/51db104dead7ce6125b953c5ec0802675b7c43bf/src/data/contents/blocks/hero/hero-35/index.tsx) | İki sütunlu alt yerleşim, yukarıdan inen navigasyon ve kelime kelime giren başlık fikri alındı. Arka plan fotoğrafı, Watermelon logosu, sahte bağlantılar ve "Book Demo" düğmesi çıkarıldı; fotoğraf yerine CSS ölçü ızgarası kondu. Başlık hareketi `framer-motion`'dan CSS animasyonuna çevrildi (önceden render edilen HTML JS beklemeden görünsün ve LCP ölçülebilsin diye). Başlık kelimeleri arasına gerçek boşluk eklendi. Mobil menü paneli, odak tuzağı, kaydırma kilidi, `aria-expanded`/`aria-controls` ve dil anahtarı burada yazıldı. |
-| `src/components/WorkSection.tsx` | [career-3/index.tsx](https://github.com/WatermelonCorp/watermelon-platform/blob/51db104dead7ce6125b953c5ec0802675b7c43bf/src/data/contents/blocks/career/career-3/index.tsx) | Alan filtresi + kart grid'i düzeni alındı. `react-icons` yerine Lucide kullanıldı; `Badge`/`Button` bağımlılıkları kaldırıldı. Çok katmanlı `shadow-[inset...]` yüzeyi, koyu zemine uygun tek çizgili föy çerçevesine ve köşe işaretlerine dönüştürüldü. Maaş/konum alanları yerine teknoloji rozetleri ve kapalı depo işareti kondu; filtre düğmeleri `aria-pressed` ile işaretlendi. |
-| `src/components/Footer.tsx` | [footer-25/index.tsx](https://github.com/WatermelonCorp/watermelon-platform/blob/51db104dead7ce6125b953c5ec0802675b7c43bf/src/data/contents/blocks/footer/footer-25/index.tsx) | Büyük kelime markası, büyük gezinme bağlantıları ve soldan uzanan çizgili sosyal şerit alındı. Bülten formu, arka plan görseli, `@hugeicons` bağımlılığı ve sahte hukuki metin çıkarıldı. SVG `textLength` yerine akışkan `clamp()` ölçüsü kullanıldı: font yüklenmeden de doğru görünüyor ve Türkçe karakterler bozulmuyor. |
-
-Watermelon UI deposunun tamamı bu projeye bağımlılık olarak alınmadı; yalnızca
-yukarıdaki dosyaların kaynak kodu okunarak uyarlandı.
+referans revizyon **`51db104dead7ce6125b953c5ec0802675b7c43bf`**. Deponun tamamı
+bu projeye bağımlılık olarak alınmadı.
 
 ### MIT License (Watermelon UI)
 
@@ -44,15 +47,14 @@ SOFTWARE.
 
 ## Yazı tipleri
 
-Üçü de **SIL Open Font License 1.1** ile dağıtılıyor ve `public/fonts/` altında
+İkisi de **SIL Open Font License 1.1** ile dağıtılıyor ve `public/fonts/` altında
 yerel olarak sunuluyor. Dosyalar Google Fonts'un latin + latin-ext altkümeleridir
 (`npm run fonts` ile yenilenir).
 
-| Font | Telif | Kaynak |
-| --- | --- | --- |
-| Space Grotesk | Copyright Florian Karsten | https://fonts.google.com/specimen/Space+Grotesk |
-| Inter | Copyright The Inter Project Authors | https://fonts.google.com/specimen/Inter |
-| JetBrains Mono | Copyright JetBrains s.r.o. | https://fonts.google.com/specimen/JetBrains+Mono |
+| Font | Kullanım | Telif | Kaynak |
+| --- | --- | --- | --- |
+| Fraunces | Başlıklar | Copyright The Fraunces Project Authors | https://fonts.google.com/specimen/Fraunces |
+| Inter | Gövde metni | Copyright The Inter Project Authors | https://fonts.google.com/specimen/Inter |
 
 Lisans metni: https://openfontlicense.org/open-font-license-official-text/
 
@@ -67,3 +69,4 @@ Lisans metni: https://openfontlicense.org/open-font-license-official-text/
 | vite, @vitejs/plugin-react | MIT |
 | typescript | Apache-2.0 |
 | @playwright/test | Apache-2.0 |
+| prettier | MIT |

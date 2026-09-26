@@ -11,9 +11,11 @@ const OUT = 'public/fonts';
 const WANTED = ['latin', 'latin-ext'];
 
 const FAMILIES = [
-  { file: 'space-grotesk', spec: 'Space+Grotesk:wght@400..700' },
+  // Başlıklar: değişken serif. `opsz` ekseni optik boyuta göre kontrastı ayarlar —
+  // büyük başlıkta ince, küçük metinde kalın tırnaklar. Fraunces'in SOFT ve WONK
+  // eksenleri istenmedi: dosyayı 124 KB'tan 226 KB'a çıkarıyorlardı.
+  { file: 'fraunces', spec: 'Fraunces:opsz,wght@9..144,400..700' },
   { file: 'inter', spec: 'Inter:wght@300..700' },
-  { file: 'jetbrains-mono', spec: 'JetBrains+Mono:wght@400..600' },
 ];
 
 await mkdir(OUT, { recursive: true });
@@ -35,7 +37,9 @@ for (const { file, spec } of FAMILIES) {
     if (!url || !range) throw new Error(`${file}/${subset}: url veya unicode-range bulunamadı`);
 
     const name = `${file}-${subset}.woff2`;
-    const bytes = new Uint8Array(await (await fetch(url, { headers: { 'User-Agent': UA } })).arrayBuffer());
+    const bytes = new Uint8Array(
+      await (await fetch(url, { headers: { 'User-Agent': UA } })).arrayBuffer(),
+    );
     await writeFile(`${OUT}/${name}`, bytes);
     lines.push(`${name.padEnd(28)} ${String(bytes.length).padStart(7)} B  ${range}`);
   }

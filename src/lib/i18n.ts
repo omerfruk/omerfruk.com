@@ -24,3 +24,7 @@ export const pathForLang = (lang: Lang): string => (lang === 'tr' ? '/tr/' : '/'
 
 /** Aynı sayfanın diğer dildeki adresi — dil anahtarı bunu kullanır. */
 export const otherLang = (lang: Lang): Lang => (lang === 'tr' ? 'en' : 'tr');
+
+/** Ürün adı gibi çevrilmeyen değerlerle çevrilenleri bir arada render etmeye yarar. */
+export const tAny = (value: string | L10n, lang: Lang): string =>
+  typeof value === 'string' ? value : value[lang];

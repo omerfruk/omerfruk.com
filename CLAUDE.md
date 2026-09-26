@@ -11,6 +11,7 @@ npm run dev          # http://localhost:5173
 npm run build        # tsc + vite build + her dil için prerender → dist/
 npm run preview      # http://localhost:4399 (production)
 npm run test:e2e     # Playwright (20 test)
+npx prettier --write "src/**/*.{ts,tsx}"   # biçim (.prettierrc: tek tırnak)
 npm run screenshots  # preview açıkken → docs/screenshots/
 npm run og           # public/og.png
 npm run fonts        # public/fonts/*.woff2
@@ -32,27 +33,31 @@ preview sunucuları tarafından kullanılıyor. Port değiştirirken `package.js
   Aynı kural prerender'da ve tarayıcıda geçerli olduğu için hydrate farkı oluşmaz.
   Dil için state, effect veya çerez ekleme — dil anahtarı sıradan bir bağlantıdır.
 - Tasarım sistemi `src/styles/globals.css` içindeki token'lar ve `@utility`
-  tanımlarıdır: `display-xl/lg/md`, `lead`, `mono-label`, `mono-meta`, `card`,
-  `card-ticks`, `grid-veil`, `link-quiet`, `container-page`, `section-space`,
-  `rule-top`. Bileşende tek tek font ölçüsü veya renk uydurma, bu ölçeği kullan.
-- Vurgu rengi (`--color-accent`, `#5fd3e3`) yalnızca mono etiket, bölüm numarası
-  ve etkileşimde kullanılır. Gövde metni veya büyük yüzey rengi yapma; koyu
-  zeminde kontrastı yetiyor ama fazlası tasarımın ölçüsünü bozuyor.
-- Bölüm başlıkları `components/ui/SectionHeading.tsx` ile kurulur (numara + mono
-  etiket + başlık). Bölüm sırası: Hero → 01 Projeler → 02 Yetkinlikler →
-  03 Deneyim → 04 İletişim → footer.
+  tanımlarıdır: `display-xl/lg/md/sm`, `lead`, `eyebrow`, `meta`, `row`,
+  `tag-list`, `link-quiet`, `container-page`, `section-space`, `rule-top`.
+  Bileşende tek tek font ölçüsü veya renk uydurma, bu ölçeği kullan.
+- **Tasarım yönü sıcak/editoryal.** Kart, rozet, gölge, bölüm numarası, mono
+  etiket ve teknik işaret **yok** — bunlar bir kez denendi ve kullanıcı sayfayı
+  "çok robotik" buldu. Ayrım saç teli çizgiyle yapılır, vurgu tipografiden gelir.
+- Vurgu rengi (`--color-accent`, `#b4552e`) üst etiket, bağlantı ve etkileşimde
+  kullanılır. Büyük yüzey rengi yapma.
+- Bölüm başlıkları `components/ui/SectionHeading.tsx` ile kurulur (üst etiket +
+  serif başlık). Bölüm sırası: Hero → Projeler → Yetkinlikler → Deneyim →
+  İletişim → footer.
 - Sayfa build'de önceden render edilir ve `hydrateRoot` ile devralınır.
   Sunucu/istemci farkı yaratacak kod yazma (`window`/`document` yalnızca effect
   içinde). Mobil menü portal değil, yerinde render edilir — bilinçli.
 
 ## Tuzaklar (hepsi bir kez yaşandı)
 
-- **Hero başlığındaki kelimeler**: ayrı ayrı girsinler diye `<span>`'lere bölünüyor,
-  ama aralarında **gerçek boşluk** olmalı. `margin` ile ayırmak görsel olarak
-  doğru görünür fakat metin "ÖmerFarukTaşdemir" olarak okunur, kopyalanır ve
-  dizine girer. Teste bağlandı.
-- **`grid-veil` katmanı**: `body`'nin opak arka planı `-z-10` katmanını örtüyor.
-  Veil normal `absolute inset-0` kalmalı, içerik `relative z-10` ile kaldırılmalı.
+- **Başlığı `<span>`'lere bölersen** aralarına **gerçek boşluk** koy. `margin` ile
+  ayırmak görsel olarak doğru görünür fakat metin "ÖmerFarukTaşdemir" olarak
+  okunur, kopyalanır ve dizine girer. Teste bağlandı.
+- **Künye (Header) 320 px'de taşıyordu**: tam ad + dil anahtarı + menü düğmesi
+  sığmıyordu. Ad mobilde 16 px, dil anahtarı 360 px altında menü paneline geçiyor.
+- **Negatif `z-index` katmanı**: `body`'nin opak arka planı `-z-10` verilen bir
+  katmanı tamamen örtüyor. Arka plan katmanı `absolute inset-0` kalmalı, içerik
+  `relative z-10` ile kaldırılmalı.
 - **Hero hareketi CSS animasyonudur, motion değil**. Motion'ın `initial` değeri
   SSR çıktısına satır içi `opacity:0` yazıyor; JS yüklenene kadar hero boş
   görünüyor. Keyframe başlangıç opaklığı 0 değil **0,01** — 0 yapılırsa Lighthouse
@@ -74,4 +79,7 @@ preview sunucuları tarafından kullanılıyor. Port değiştirirken `package.js
 - Telefon numarası `contact.phone: null` ile kapalı. Açmak kullanıcının kararı.
 - İletişim adresi `info@omerfruk.com`; Cloudflare Email Routing ile gmail'e
   yönleniyor. Kişisel gmail adresi sayfada geçmez.
+- Yetkinlik maddelerinde ürün adı (Go, PostgreSQL) olduğu gibi kalır; açıklama
+  niteliğindekiler (`Role-based authorization`) `{ en, tr }` çifti olarak yazılır —
+  `SkillItem` tipi ikisini de kabul eder.
 - Sahte yorum, müşteri logosu, yıldız puanı, sayaç veya uydurma metrik ekleme.

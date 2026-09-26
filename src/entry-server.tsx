@@ -27,5 +27,8 @@ export const pageMeta = {
   email: contact.email,
   employer: experience[0].org,
   sameAs: contact.links.map((link) => link.href),
-  knowsAbout: skillGroups.flatMap((group) => group.items),
+  // JSON-LD tek dilli; çevrilebilir maddelerde İngilizce karşılık kullanılır.
+  knowsAbout: skillGroups.flatMap((group) =>
+    group.items.map((item) => (typeof item === 'string' ? item : item.en)),
+  ),
 };

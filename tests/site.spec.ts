@@ -5,10 +5,16 @@ test.describe('English page', () => {
     await page.goto('/');
   });
 
-  test('renders one H1 carrying the name', async ({ page }) => {
+  test('has exactly one H1, and the name is in the masthead and title', async ({ page }) => {
     const h1 = page.getByRole('heading', { level: 1 });
     await expect(h1).toHaveCount(1);
-    await expect(h1).toContainText('Ömer Faruk Taşdemir');
+    await expect(h1).toContainText('I build backend systems');
+
+    // İsim H1'de değil; künyede, sayfa başlığında ve JSON-LD'de geçiyor.
+    await expect(page.getByRole('banner')).toContainText('Ömer Faruk Taşdemir');
+    await expect(page).toHaveTitle(/Ömer Faruk Taşdemir/);
+    const jsonLd = await page.locator('script[type="application/ld+json"]').textContent();
+    expect(JSON.parse(jsonLd ?? '{}').name).toBe('Ömer Faruk Taşdemir');
   });
 
   test('declares language, canonical and both hreflang alternates', async ({ page }) => {
@@ -49,10 +55,10 @@ test.describe('English page', () => {
     await expect(publicCard).toHaveAttribute('rel', /noopener/);
 
     // Kapalı depo kartı bağlantı değildir ve "Private repository" ile işaretlenir.
-    const privateCard = page
-      .locator('#work li')
+    const privateRow = page
+      .locator('[data-testid="project-list"] > li')
       .filter({ has: page.getByRole('heading', { name: 'KARE Rehber' }) });
-    await expect(privateCard.locator('a')).toHaveCount(0);
+    await expect(privateRow.locator('a')).toHaveCount(0);
   });
 
   test('the contact address is a mailto link', async ({ page }) => {
@@ -74,7 +80,9 @@ test.describe('Turkish page', () => {
   test('is served at /tr/ with Turkish content and lang attribute', async ({ page }) => {
     await page.goto('/tr/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'tr');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Ömer Faruk Taşdemir');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'Güvenilir backend sistemleri kuruyorum.',
+    );
     await expect(page.getByRole('heading', { name: 'Çalıştığım yerler.' })).toBeVisible();
   });
 
@@ -94,7 +102,7 @@ test.describe('Prerendered output', () => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Ömer Faruk Taşdemir');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('I build backend systems');
     await expect(page.getByRole('heading', { name: 'AwqatSalah Cookbook' })).toBeVisible();
     await context.close();
   });
