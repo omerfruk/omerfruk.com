@@ -6,3 +6,6 @@ test-results
 playwright-report
 .DS_Store
 .wrangler
+
+# Ekran görüntüleri: 9 MB ve yeniden üretilebilir (npm run screenshots).
+docs/screenshots
