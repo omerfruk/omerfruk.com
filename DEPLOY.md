@@ -20,7 +20,7 @@ src/ (React + TypeScript)  ──npm run build──▶  dist/  ──npm run de
 | --- | --- |
 | **https://omerfruk.com** | Asıl adres. Bunu paylaş. |
 | https://omerfruk.com/tr/ | Türkçe sayfa. |
-| https://www.omerfruk.com | Köke yönlenir. |
+| https://www.omerfruk.com | Aynı içerik; her sayfanın canonical'ı köke işaret eder. |
 | https://omerfruk-com.pages.dev | Aynı içerik; **Türkiye'de engelli** (aşağıya bak). |
 
 `dist/` ve `node_modules/` git'e eklenmez; her cihazda yeniden üretilir.
@@ -66,6 +66,27 @@ git add -A && git commit -m "..." && git push
 
 Proxy kapatılırsa ziyaretçi doğrudan `pages.dev` adresine çözümler ve aşağıdaki
 engele takılır — **kapatma**.
+
+## E-posta: info@omerfruk.com
+
+Sitedeki iletişim adresi **Cloudflare Email Routing** ile yönlendiriliyor
+(26 Eylül 2026'da kuruldu, ücretsiz):
+
+```
+info@omerfruk.com  ──▶  omer.fruk3547@gmail.com   (kural: Active)
+```
+
+Kurulum bölgeye üç MX kaydı (`route1/2/3.mx.cloudflare.net`) ile bir SPF ve bir
+DKIM TXT kaydı ekledi; bunlar Cloudflare tarafından kilitli tutuluyor, elle
+silme. Hedef adres Cloudflare hesabının kendi adresi olduğu için doğrulama
+adımı gerekmeden `Verified` oldu.
+
+Bu **yalnızca gelen postayı yönlendirir**; adresten e-posta *göndermek* için
+Gmail'de Ayarlar → Hesaplar → "Başka bir e-posta adresi ekle" akışıyla
+info@omerfruk.com'u gönderen adres olarak tanımlaman gerekir (Cloudflare'in
+kendi SMTP'si yok; Gmail'in SMTP'si kullanılır).
+
+Yeni adres eklemek: Cloudflare → Email Routing → Routing rules → Create.
 
 ## Önemli: `pages.dev` Türkiye'de engelli
 

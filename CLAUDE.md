@@ -72,4 +72,6 @@ preview sunucuları tarafından kullanılıyor. Port değiştirirken `package.js
   bilgiler" başlığındaki maddeler siteye girmez.
 - Ev adresi yayınlanmaz; konum yalnızca "Isparta, Türkiye" olarak geçer.
 - Telefon numarası `contact.phone: null` ile kapalı. Açmak kullanıcının kararı.
+- İletişim adresi `info@omerfruk.com`; Cloudflare Email Routing ile gmail'e
+  yönleniyor. Kişisel gmail adresi sayfada geçmez.
 - Sahte yorum, müşteri logosu, yıldız puanı, sayaç veya uydurma metrik ekleme.

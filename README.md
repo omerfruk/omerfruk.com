@@ -90,6 +90,9 @@ Laravel adı geçmez**. Geniş teknoloji yetkinliği gerektiğinde genel ifade
 kullanılır. Bu kural `tests/site.spec.ts` içinde bir teste bağlıdır; metin
 düzenlemesi sırasında sessizce bozulmaz.
 
+İletişim adresi `info@omerfruk.com`; Cloudflare Email Routing ile gmail hesabına
+yönleniyor (bkz. `DEPLOY.md`), kişisel gmail adresi sayfada geçmez.
+
 Telefon numarası bilinçli olarak yayınlanmıyor (`contact.phone: null`). Yayınlamak
 istersen `src/data/site.ts` içine numarayı yaz; iletişim bölümü satırı kendiliğinden
 ekler.

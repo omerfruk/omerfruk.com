@@ -273,7 +273,12 @@ export const education: readonly TimelineEntry[] = [
    -------------------------------------------------------------------------- */
 
 export const contact = {
-  email: 'omer.fruk3547@gmail.com',
+  /**
+   * Cloudflare Email Routing ile gmail hesabına yönleniyor (bkz. DEPLOY.md).
+   * Alan adının kendi adresi olduğu için kamuya açık sayfada bu kullanılır;
+   * gmail adresi sitede geçmez.
+   */
+  email: 'info@omerfruk.com',
   location: { en: 'Isparta, Türkiye', tr: 'Isparta, Türkiye' } satisfies L10n,
   availability: {
     en: 'Open to freelance work up to 30 hours per week.',
